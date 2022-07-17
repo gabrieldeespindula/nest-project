@@ -2,9 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateDisciplineInput {
+  name: String!
+}
+
+input CreateManyDisciplinesInput {
+  """Array of records to create"""
+  disciplines: [CreateDisciplineInput!]!
+}
+
 input CreateManyStudentsInput {
   """Array of records to create"""
   students: [CreateStudentInput!]!
+}
+
+input CreateOneDisciplineInput {
+  """The record to create"""
+  discipline: CreateDisciplineInput!
 }
 
 input CreateOneStudentInput {
@@ -42,6 +56,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeleteManyDisciplinesInput {
+  """Filter to find records to delete"""
+  filter: DisciplineDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
@@ -52,17 +71,139 @@ input DeleteManyStudentsInput {
   filter: StudentDeleteFilter!
 }
 
+input DeleteOneDisciplineInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneStudentInput {
   """The id of the record to delete."""
   id: ID!
 }
 
+type Discipline {
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: Float!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type DisciplineAggregateGroupBy {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: Float
+  name: String
+  updatedAt: DateTime
+}
+
+type DisciplineAvgAggregate {
+  id: Float
+}
+
+type DisciplineConnection {
+  """Array of nodes."""
+  nodes: [Discipline!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type DisciplineCountAggregate {
+  createdAt: Int
+  deletedAt: Int
+  id: Int
+  name: Int
+  updatedAt: Int
+}
+
+input DisciplineDeleteFilter {
+  and: [DisciplineDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: NumberFieldComparison
+  name: StringFieldComparison
+  or: [DisciplineDeleteFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type DisciplineDeleteResponse {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: Float
+  name: String
+  updatedAt: DateTime
+}
+
+input DisciplineFilter {
+  and: [DisciplineFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: NumberFieldComparison
+  name: StringFieldComparison
+  or: [DisciplineFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type DisciplineMaxAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: Float
+  name: String
+  updatedAt: DateTime
+}
+
+type DisciplineMinAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: Float
+  name: String
+  updatedAt: DateTime
+}
+
+input DisciplineSort {
+  direction: SortDirection!
+  field: DisciplineSortFields!
+  nulls: SortNulls
+}
+
+enum DisciplineSortFields {
+  createdAt
+  deletedAt
+  id
+  name
+  updatedAt
+}
+
+type DisciplineSumAggregate {
+  id: Float
+}
+
+input DisciplineUpdateFilter {
+  and: [DisciplineUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: NumberFieldComparison
+  name: StringFieldComparison
+  or: [DisciplineUpdateFilter!]
+  updatedAt: DateFieldComparison
+}
+
 type Mutation {
+  createManyDisciplines(input: CreateManyDisciplinesInput!): [Discipline!]!
   createManyStudents(input: CreateManyStudentsInput!): [Student!]!
+  createOneDiscipline(input: CreateOneDisciplineInput!): Discipline!
   createOneStudent(input: CreateOneStudentInput!): Student!
+  deleteManyDisciplines(input: DeleteManyDisciplinesInput!): DeleteManyResponse!
   deleteManyStudents(input: DeleteManyStudentsInput!): DeleteManyResponse!
+  deleteOneDiscipline(input: DeleteOneDisciplineInput!): DisciplineDeleteResponse!
   deleteOneStudent(input: DeleteOneStudentInput!): StudentDeleteResponse!
+  updateManyDisciplines(input: UpdateManyDisciplinesInput!): UpdateManyResponse!
   updateManyStudents(input: UpdateManyStudentsInput!): UpdateManyResponse!
+  updateOneDiscipline(input: UpdateOneDisciplineInput!): Discipline!
   updateOneStudent(input: UpdateOneStudentInput!): Student!
 }
 
@@ -103,6 +244,20 @@ input OffsetPaging {
 }
 
 type Query {
+  discipline(
+    """The id of the record to find."""
+    id: ID!
+  ): Discipline
+  disciplines(
+    """Specify to filter the records returned."""
+    filter: DisciplineFilter = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [DisciplineSort!] = []
+  ): DisciplineConnection!
   student(
     """The id of the record to find."""
     id: ID!
@@ -269,6 +424,19 @@ input StudentUpdateFilter {
   updatedAt: DateFieldComparison
 }
 
+input UpdateDisciplineInput {
+  id: Int
+  name: String
+}
+
+input UpdateManyDisciplinesInput {
+  """Filter used to find fields to update"""
+  filter: DisciplineUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateDisciplineInput!
+}
+
 type UpdateManyResponse {
   """The number of records updated."""
   updatedCount: Int!
@@ -282,6 +450,14 @@ input UpdateManyStudentsInput {
   update: UpdateStudentInput!
 }
 
+input UpdateOneDisciplineInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateDisciplineInput!
+}
+
 input UpdateOneStudentInput {
   """The id of the record to update"""
   id: ID!
@@ -291,7 +467,7 @@ input UpdateOneStudentInput {
 }
 
 input UpdateStudentInput {
-  id: Int!
+  id: Int
   key: String
   name: String
 }

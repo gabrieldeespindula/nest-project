@@ -6,6 +6,8 @@ import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsModule } from './modules/students/students.module';
 import { Student } from './modules/students/entities/student.entity';
+import { DisciplinesModule } from './modules/disciplines/disciplines.module';
+import { Discipline } from './modules/disciplines/entities/discipline.entity';
 
 @Module({
     imports: [
@@ -21,10 +23,11 @@ import { Student } from './modules/students/entities/student.entity';
             username: 'postgres',
             password: '1234',
             database: 'postgres',
-            entities: [Student],
+            entities: [Student, Discipline],
             synchronize: true,
         }),
         StudentsModule,
+        DisciplinesModule,
     ],
     providers: [AppService],
 })
