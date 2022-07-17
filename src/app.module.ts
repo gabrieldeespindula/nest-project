@@ -5,27 +5,27 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsModule } from './modules/students/students.module';
+import { Student } from './modules/students/entities/student.entity';
 
 @Module({
-  imports: [
-	GraphQLModule.forRoot<ApolloDriverConfig>({
-		driver: ApolloDriver,
-  		autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-		sortSchema: true
-	  }),
-	  TypeOrmModule.forRoot({
-		type: 'postgres',
-		host: 'localhost',
-		port: 5432,
-		username: 'postgres',
-		password: '1234',
-		database: 'postgres',
-		entities: [],
-		synchronize: true,
-	  }),
-	  StudentsModule,
-	],
-  providers: [AppService],
+    imports: [
+        GraphQLModule.forRoot<ApolloDriverConfig>({
+            driver: ApolloDriver,
+            autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+            sortSchema: true,
+        }),
+        TypeOrmModule.forRoot({
+            type: 'postgres',
+            host: 'localhost',
+            port: 5432,
+            username: 'postgres',
+            password: '1234',
+            database: 'postgres',
+            entities: [Student],
+            synchronize: true,
+        }),
+        StudentsModule,
+    ],
+    providers: [AppService],
 })
-
 export class AppModule {}
